@@ -7,8 +7,8 @@ const MongoStore = require("connect-mongo")(session);
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
-require("./handlers/passport");
 const cors = require("cors");
+require("./handlers/passport");
 const api = require("./api");
 
 const app = express();
@@ -36,7 +36,7 @@ app.use(passport.session());
 
 app.use("/api", api);
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   res.json(err);
 });
 

@@ -1,11 +1,21 @@
 const { Router } = require("express");
-const { uploadImage } = require("../../controllers/imageController");
+const ic = require("../../controllers/imageController");
 const { isAuthenticated } = require("../../controllers/authController");
 
 const router = Router();
 
-router.post("/images", isAuthenticated, uploadImage, async (req, res) => {
-  res.json(req.body.image);
+router.get("/images", isAuthenticated, ic.getImages, (req, res) => {
+  res.json(req.images);
 });
+
+router.post(
+  "/images",
+  isAuthenticated,
+  ic.uploadSingle,
+  ic.addImage,
+  (req, res) => {
+    res.json({ message: "Upload successful!" });
+  }
+);
 
 module.exports = router;

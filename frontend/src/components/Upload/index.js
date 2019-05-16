@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
-// import axios from "axios";
 import { API_URL } from "../../config";
 import { Form } from "../styles/Form";
 import { ErrorMessage } from "../ErrorMessage";
+import { SuccessMessage } from "../SuccessMessage";
 
 const StyledUpload = styled.div`
   margin-top: 3rem;
@@ -13,23 +13,36 @@ const StyledUpload = styled.div`
   justify-content: center;
 `;
 
+const StyledImg = styled.img`
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+`;
+
 const Upload = () => {
-  const [form, handleChange] = useForm({ file: null });
-  const [{ loading, error }, sendRequest] = useFetch();
+  const [url, setUrl] = useState("");
+  const [file, setFile] = useState("");
+  const [success, setSuccess] = useState({});
+  const [{ loading, error, data }, sendRequest] = useFetch();
+
+  const handleChange = e => {
+    setFile(e.target.files[0]);
+    setUrl(URL.createObjectURL(e.target.files[0]));
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("file", form.file);
+      formData.append("file", file);
+
       const url = `${API_URL}/images`;
       const config = {
-        data: JSON.stringify(form)
+        method: "POST",
+        body: formData
       };
-      const data = await sendRequest(url, config);
-      if (data) {
-        console.log("image sent to express app, recieved data: ", data);
-      }
+      await sendRequest(url, config);
     } catch (err) {
       console.log(err);
     }
@@ -39,14 +52,17 @@ const Upload = () => {
     <StyledUpload>
       <Form method="POST" onSubmit={handleSubmit}>
         <fieldset disabled={loading}>
+          <SuccessMessage success={success} />
           <h2>Upload an image</h2>
           <ErrorMessage error={error} />
-          <label htmlFor="file">Choose an image</label>
+          <StyledImg src={url} alt="" />
+          <label htmlFor="file">Image</label>
           <input
             onChange={handleChange}
             name="file"
             id="file"
             type="file"
+            accept="image/*"
             required
           />
           <button type="submit">Upload Image!</button>

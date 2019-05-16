@@ -15,7 +15,7 @@ const StyledLogin = styled.div`
 `;
 
 const Login = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const [{ loading, error }, sendRequest] = useFetch();
   const [form, handleChange] = useForm({
     email: "",
@@ -27,6 +27,9 @@ const Login = () => {
     const url = `${API_URL}/login`;
     const config = {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(form)
     };
     try {

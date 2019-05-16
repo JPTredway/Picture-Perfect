@@ -1,8 +1,6 @@
 const { User } = require("../db");
-const { Image } = require("../db");
 
 const registerUser = async (req, res, next) => {
-  console.log(req.body);
   try {
     const user = new User({
       name: req.body.name,

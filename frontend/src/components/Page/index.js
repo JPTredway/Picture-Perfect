@@ -1,6 +1,5 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
-import { AuthContext } from "../AuthContext";
 import { Header } from "../Header";
 
 const theme = {

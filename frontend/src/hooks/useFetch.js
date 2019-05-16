@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 
-const useFetch = () => {
-  const [loading, setLoading] = useState(false);
+const useFetch = (userConfig = {}) => {
+  const config = {
+    initialLoading: false,
+    dataShape: null,
+    ...userConfig
+  };
+  const [loading, setLoading] = useState(config.initialLoading);
   const [error, setError] = useState(null);
+  const [data, setData] = useState(config.dataShape);
 
   const defaultConfig = {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    },
     credentials: "include"
   };
 
@@ -25,7 +28,7 @@ const useFetch = () => {
         throw new Error("Something went wrong...");
       }
       const data = await response.json();
-      return data;
+      if (data) setData(data);
     } catch (err) {
       setError(err);
     } finally {
@@ -33,7 +36,7 @@ const useFetch = () => {
     }
   };
 
-  return [{ loading, error }, sendRequest];
+  return [{ loading, error, data }, sendRequest];
 };
 
 export { useFetch };

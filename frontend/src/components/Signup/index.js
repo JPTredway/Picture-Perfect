@@ -28,6 +28,9 @@ const Signup = () => {
     const url = `${API_URL}/signup`;
     const config = {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(form)
     };
     try {
