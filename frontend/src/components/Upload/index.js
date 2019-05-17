@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
 import { API_URL } from "../../config";
 import { Form } from "../styles/Form";
 import { ErrorMessage } from "../ErrorMessage";
-import { SuccessMessage } from "../SuccessMessage";
 
 const StyledUpload = styled.div`
   margin-top: 3rem;
@@ -23,8 +21,7 @@ const StyledImg = styled.img`
 const Upload = () => {
   const [url, setUrl] = useState("");
   const [file, setFile] = useState("");
-  const [success, setSuccess] = useState({});
-  const [{ loading, error, data }, sendRequest] = useFetch();
+  const [{ loading, error }, sendRequest] = useFetch();
 
   const handleChange = e => {
     setFile(e.target.files[0]);
@@ -42,7 +39,8 @@ const Upload = () => {
         method: "POST",
         body: formData
       };
-      await sendRequest(url, config);
+      const data = await sendRequest(url, config);
+      console.log("data from upload: ", data);
     } catch (err) {
       console.log(err);
     }
@@ -52,7 +50,6 @@ const Upload = () => {
     <StyledUpload>
       <Form method="POST" onSubmit={handleSubmit}>
         <fieldset disabled={loading}>
-          <SuccessMessage success={success} />
           <h2>Upload an image</h2>
           <ErrorMessage error={error} />
           <StyledImg src={url} alt="" />

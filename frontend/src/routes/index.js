@@ -1,9 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
-import { useFetch } from "../hooks/useFetch";
-import { API_URL } from "../config";
-import { Loader } from "../components/Loader";
 import { Home } from "../components/Home";
 import { Login } from "../components/Login";
 import { Signup } from "../components/Signup";
@@ -12,39 +9,15 @@ import { Upload } from "../components/Upload";
 import { NotFound } from "../components/NotFound";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { user, setUser } = useContext(AuthContext);
-  const [{ loading, data }, sendRequest] = useFetch({
-    initialLoading: true
-  });
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const url = `${API_URL}/user`;
-      try {
-        await sendRequest(url);
-      } catch (err) {
-        console.log(err);
+  const { user } = useContext(AuthContext);
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        user ? <Component {...props} /> : <Redirect to="/login" />
       }
-    };
-    checkAuth();
-  }, []);
-
-  useEffect(() => {
-    setUser(data);
-  }, [data]);
-
-  if (loading) {
-    return <Loader loading={loading} />;
-  } else {
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          user ? <Component {...props} /> : <Redirect to="/login" />
-        }
-      />
-    );
-  }
+    />
+  );
 };
 
 const Routes = () => (

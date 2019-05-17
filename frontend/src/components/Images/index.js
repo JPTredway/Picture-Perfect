@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useFetch } from "../../hooks/useFetch";
-import { ImageContext } from "../ImageContext";
 import { API_URL } from "../../config";
 import { Image } from "../Image";
 import { Loader } from "../Loader";
@@ -29,27 +28,21 @@ const StyledImages = styled.div`
 `;
 
 const Images = () => {
-  const { images, setImages } = useContext(ImageContext);
-  const [{ loading, error, data }, sendRequest] = useFetch({
-    initialLoading: true,
-    dataShape: []
-  });
+  const [images, setImages] = useState([]);
+  const [{ loading, error }, sendRequest] = useFetch(true);
 
   useEffect(() => {
     const getImages = async () => {
       const url = `${API_URL}/images`;
       try {
-        await sendRequest(url);
+        const images = await sendRequest(url);
+        setImages(images);
       } catch (err) {
         console.log(err);
       }
     };
     getImages();
   }, []);
-
-  useEffect(() => {
-    setImages(data);
-  }, [data]);
 
   return (
     <>

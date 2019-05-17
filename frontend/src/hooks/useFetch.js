@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 
-const useFetch = (userConfig = {}) => {
-  const config = {
-    initialLoading: false,
-    dataShape: null,
-    ...userConfig
-  };
-  const [loading, setLoading] = useState(config.initialLoading);
+const useFetch = (initialLoading = false) => {
+  const [loading, setLoading] = useState(initialLoading);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(config.dataShape);
 
   const defaultConfig = {
     method: "GET",
@@ -28,7 +22,7 @@ const useFetch = (userConfig = {}) => {
         throw new Error("Something went wrong...");
       }
       const data = await response.json();
-      if (data) setData(data);
+      return data;
     } catch (err) {
       setError(err);
     } finally {
@@ -36,7 +30,7 @@ const useFetch = (userConfig = {}) => {
     }
   };
 
-  return [{ loading, error, data }, sendRequest];
+  return [{ loading, error }, sendRequest];
 };
 
 export { useFetch };

@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Router } from "react-router-dom";
-import { AuthProvider } from "../AuthContext";
-import { ImageProvider } from "../ImageContext";
+import { API_URL } from "../../config";
 import { history } from "../../routes/history";
+import { useFetch } from "../../hooks/useFetch";
+import { AuthContext } from "../AuthContext";
 import { Page } from "../Page";
 import { Routes } from "../../routes";
 
-const App = () => (
-  <AuthProvider>
+const App = () => {
+  const { user, setUser } = useContext(AuthContext);
+  const [_, sendRequest] = useFetch();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const url = `${API_URL}/user`;
+      try {
+        const user = await sendRequest(url);
+        if (user) setUser(user);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (!user) checkAuth();
+  }, []);
+
+  return (
     <Router history={history}>
       <Page>
-        <ImageProvider>
-          <Routes />
-        </ImageProvider>
+        <Routes />
       </Page>
     </Router>
-  </AuthProvider>
-);
+  );
+};
 
 export { App };
