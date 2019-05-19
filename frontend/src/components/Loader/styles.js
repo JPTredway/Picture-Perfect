@@ -28,7 +28,7 @@ const Spinner = styled.div`
     height: 51px;
     margin: 6px;
     border-radius: 50%;
-    background: ${props => props.theme.accent};
+    background: #90ddf0;
     animation: 2.4s ${spin} cubic-bezier(0, 0.2, 0.8, 1) infinite;
   }
 `;

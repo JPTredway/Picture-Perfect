@@ -8,10 +8,15 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const cors = require("cors");
+const morgan = require("morgan");
 require("./handlers/passport");
 const api = require("./api");
 
 const app = express();
+
+if (process.env.NODE_ENV === "DEV") {
+  app.use(morgan("tiny"));
+}
 
 app.use(
   cors({

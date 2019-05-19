@@ -4,12 +4,13 @@ import { API_URL } from "../../config";
 import { history } from "../../routes/history";
 import { useFetch } from "../../hooks/useFetch";
 import { AuthContext } from "../AuthContext";
+import { Loader } from "../Loader";
 import { Page } from "../Page";
 import { Routes } from "../../routes";
 
 const App = () => {
-  const { user, setUser } = useContext(AuthContext);
-  const [_, sendRequest] = useFetch();
+  const { setUser } = useContext(AuthContext);
+  const [{ loading }, sendRequest] = useFetch(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -21,8 +22,11 @@ const App = () => {
         console.log(err);
       }
     };
-    if (!user) checkAuth();
+
+    checkAuth();
   }, []);
+
+  if (loading) return <Loader loading={loading} />;
 
   return (
     <Router history={history}>

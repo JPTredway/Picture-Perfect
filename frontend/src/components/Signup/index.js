@@ -17,7 +17,7 @@ const StyledSignup = styled.div`
 const Signup = () => {
   const { setUser } = useContext(AuthContext);
   const [{ loading, error }, sendRequest] = useFetch();
-  const [form, handleChange] = useForm({
+  const [form, { handleTextChange }] = useForm({
     name: "",
     email: "",
     password: ""
@@ -53,7 +53,7 @@ const Signup = () => {
             name="name"
             value={form.name}
             placeholder="Enter your name..."
-            onChange={handleChange}
+            onChange={handleTextChange}
             type="text"
             id="name"
             required
@@ -63,7 +63,7 @@ const Signup = () => {
             name="email"
             value={form.email}
             placeholder="Enter your email..."
-            onChange={handleChange}
+            onChange={handleTextChange}
             type="email"
             id="email"
             required
@@ -73,7 +73,7 @@ const Signup = () => {
             name="password"
             value={form.password}
             placeholder="Enter your password..."
-            onChange={handleChange}
+            onChange={handleTextChange}
             type="password"
             id="password"
             required
