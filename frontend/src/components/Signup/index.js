@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import styled from "styled-components";
 import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
 import { API_URL } from "../../config";
@@ -7,12 +6,7 @@ import { AuthContext } from "../AuthContext";
 import { history } from "../../routes/history";
 import { ErrorMessage } from "../ErrorMessage";
 import { Form } from "../styles/Form";
-
-const StyledSignup = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
+import { StyledSignup } from "./styles";
 
 const Signup = () => {
   const { setUser } = useContext(AuthContext);

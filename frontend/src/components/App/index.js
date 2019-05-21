@@ -4,6 +4,8 @@ import { API_URL } from "../../config";
 import { history } from "../../routes/history";
 import { useFetch } from "../../hooks/useFetch";
 import { AuthContext } from "../AuthContext";
+import { ThemeProvider } from "styled-components";
+import { theme, Global } from "./styles";
 import { Loader } from "../Loader";
 import { Page } from "../Page";
 import { Routes } from "../../routes";
@@ -26,13 +28,16 @@ const App = () => {
     checkAuth();
   }, []);
 
-  if (loading) return <Loader loading={loading} />;
+  if (loading) return <Loader />;
 
   return (
     <Router history={history}>
-      <Page>
-        <Routes />
-      </Page>
+      <Global />
+      <ThemeProvider theme={theme}>
+        <Page>
+          <Routes />
+        </Page>
+      </ThemeProvider>
     </Router>
   );
 };

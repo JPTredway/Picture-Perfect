@@ -1,22 +1,9 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useFetch } from "../../hooks/useFetch";
 import { API_URL } from "../../config";
 import { Form } from "../styles/Form";
 import { ErrorMessage } from "../ErrorMessage";
-
-const StyledUpload = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledImg = styled.img`
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-  height: auto;
-`;
+import { StyledUpload, StyledImg } from "./styles";
 
 const Upload = () => {
   const [url, setUrl] = useState("");
@@ -40,7 +27,6 @@ const Upload = () => {
         body: formData
       };
       const data = await sendRequest(url, config);
-      console.log("data from upload: ", data);
     } catch (err) {
       console.log(err);
     }

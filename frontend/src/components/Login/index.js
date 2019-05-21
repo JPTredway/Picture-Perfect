@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
 import { history } from "../../routes/history";
 import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
@@ -7,12 +6,7 @@ import { API_URL } from "../../config";
 import { AuthContext } from "../AuthContext";
 import { ErrorMessage } from "../ErrorMessage";
 import { Form } from "../styles/Form";
-
-const StyledLogin = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
+import { StyledLogin } from "./styles";
 
 const Login = () => {
   const { setUser } = useContext(AuthContext);

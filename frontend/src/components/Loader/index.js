@@ -1,11 +1,10 @@
 import React from "react";
 import { Spinner } from "./styles";
 
-const Loader = ({ loading }) =>
-  loading ? (
-    <Spinner>
-      <div />
-    </Spinner>
-  ) : null;
+const Loader = () => (
+  <Spinner>
+    <div />
+  </Spinner>
+);
 
 export { Loader };
